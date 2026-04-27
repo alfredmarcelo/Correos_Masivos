@@ -1,0 +1,8 @@
+Proxies/
+Asientos/
+*.exe
+__pycache__/
+build/
+dist/
+*.spec
+*.ico
