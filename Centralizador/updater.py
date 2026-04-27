@@ -21,9 +21,9 @@ from urllib.error import URLError
 # ══════════════════════════════════════════════════════════
 # CONFIGURACIÓN — Cambia estos valores con tu repositorio
 # ══════════════════════════════════════════════════════════
-GITHUB_REPO = "tu-usuario/SaludYCorreos"  # ← Cambiar por tu repo real
+GITHUB_REPO = "alfredmarcelo/Correos_Masivos"  # ← Cambiar por tu repo real
 CURRENT_VERSION = "1.0.0"                  # ← Incrementar con cada release
-EXE_NAME = "SaludYCorreos.exe"            # ← Nombre del .exe en el release
+EXE_NAME = "Centralizador.exe"            # ← Nombre del .exe en el release
 # ══════════════════════════════════════════════════════════
 
 
@@ -95,7 +95,7 @@ def download_update(download_url, progress_callback=None):
     try:
         req = Request(download_url, headers={
             "Accept": "application/octet-stream",
-            "User-Agent": "SaludYCorreos-Updater"
+            "User-Agent": "Centralizador-Updater"
         })
         
         with urlopen(req, timeout=120) as response:
@@ -207,7 +207,7 @@ def check_and_prompt_update(parent_widget=None):
     progress = QProgressDialog(
         "Descargando actualización...", "Cancelar", 0, 100, parent_widget
     )
-    progress.setWindowTitle("Actualizando SaludYCorreos")
+    progress.setWindowTitle("Actualizando Centralizador")
     progress.setWindowModality(Qt.WindowModality.WindowModal)
     progress.setMinimumDuration(0)
     progress.show()

@@ -955,8 +955,11 @@ class CentralWindow(QMainWindow):
 
 if __name__ == "__main__":
 
-
     app = QApplication(sys.argv)
+
+    # ── PASO 0: Comprobar actualizaciones vía GitHub ──
+    from updater import check_and_prompt_update
+    check_and_prompt_update()
 
     # ── PASO 1: Mostrar pantalla de carga y buscar proxy ──
     loading = LoadingScreen()
