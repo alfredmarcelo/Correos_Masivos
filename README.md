@@ -1,74 +1,62 @@
-# Programa Centralizador - Automatización y Creación Masiva de Correos
+# Programa Centralizador - Creación Masiva de Correos
 
-![Centralizador](Centralizador/Icono.ico)
+**Programa Centralizador** es una herramienta de escritorio desarrollada en Python (PyQt6) enfocada en la **creación masiva y automatizada de cuentas de correo electrónico** (como Outlook/Hotmail y Gmail). 
 
-**Programa Centralizador** es una potente herramienta de escritorio desarrollada en Python (PyQt6) diseñada específicamente para la **creación masiva y automatizada de cuentas de correo electrónico** (principalmente Outlook/Hotmail y Gmail). 
-
-El sistema está construido con una arquitectura avanzada orientada a evadir los sistemas anti-bots y evitar el "browser fingerprinting" (rastreo de huella digital), garantizando el aislamiento absoluto de cada sesión de registro.
+Este cliente web modificado está construido con una arquitectura avanzada para evadir los sistemas anti-bots y evitar el "browser fingerprinting", garantizando el aislamiento absoluto de cada sesión de registro para evitar que las cuentas sean marcadas como automatizadas.
 
 ## 🚀 Características Principales
 
 ### 1. Aislamiento Total de Pestañas (Anti-Fingerprinting)
-Cada pestaña del navegador dentro de la aplicación funciona como un entorno 100% aislado. El programa inyecta scripts de evasión (Spoofing JS) en tiempo real para generar identidades únicas por pestaña, evadiendo la detección de Microsoft y Google:
+Cada pestaña del navegador funciona como un entorno completamente aislado. El programa inyecta scripts de evasión en tiempo real para generar identidades únicas por cada pestaña, saltando las defensas de Microsoft y Google:
 - **WebGL Spoofing:** Simulación de diferentes tarjetas gráficas (NVIDIA, AMD, Intel).
 - **Canvas Noise:** Inyección de ruido en la renderización de canvas para evitar rastreo por píxeles.
 - **AudioContext Jitter:** Alteración microscópica en frecuencias de audio.
-- **Screen & Hardware Spoofing:** Rotación de resoluciones de pantalla, memoria RAM y núcleos de CPU simulados.
-- **Timezone Normalization:** Enmascaramiento de zonas horarias para coincidir con la ubicación del proxy.
+- **Screen Spoofing:** Rotación de resoluciones de pantalla simuladas en el navegador.
+- **Timezone Normalization:** Enmascaramiento de zonas horarias para coincidir con la ubicación del proxy en uso.
 
-### 2. Gestión Dinámica y Rotación de Proxies
-El éxito en la creación masiva de correos radica en la calidad de la conexión:
-- **Rotación en Tiempo Real:** Interfaz capaz de rotar y cambiar de proxy si se detectan bloqueos o caídas.
-- **Servidores Proxy Locales:** Uso de microservicios Flask (en la carpeta `Proxies/`) que despachan listas frescas de proxies validados.
-- **Validación SOCKS5 y HTTP:** Sistemas de chequeo continuo de la salud de los proxies mediante sockets directos.
+### 2. Soporte de Proxies (Rotación)
+La aplicación está preparada para rotar IP conectándose a listas de proxies externas, asegurando que cada bloque de registros salga desde IPs residenciales o de centros de datos distintos. Permite manejar proxies autenticados (usuario:contraseña) con integración nativa a través de PyQt Network y peticiones asíncronas para buscar el mejor proxy disponible antes de arrancar.
 
-### 3. Flujos de Registro Optimizados
-- Flujos integrados para Outlook/Hotmail y Gmail.
-- Las ventanas simulan comportamientos humanos (retrasos naturales, scroll, inyección de clicks) requeridos para saltar los retos ocultos de Microsoft.
+### 3. Flujos Optimizados y Simulación Humana
+- Pestañas independientes con memoria y caché virtualizadas.
+- Ocultación profunda de motores automatizados (eliminación de los rastros típicos de QtWebEngine y Webdriver).
 
 ---
 
-## 📂 Estructura del Proyecto
+## 📂 Archivos Principales del Centralizador
 
-El ecosistema de la aplicación se divide en 3 módulos principales:
+El sistema incluye los siguientes componentes esenciales para funcionar:
 
-* **`Centralizador/`**: Es el núcleo (Core) de la aplicación gráfica.
-  * `Centralizador.py`: Interfaz principal PyQt6 con navegación por pestañas y motor Chromium modificado.
-  * `browser_identity.py`: Motor generador de identidades (User-Agents, tarjetas de video, resoluciones aleatorias).
-  * Scripts por módulo: `Correos.py`, `correos_gmail.py`, `MercadoSalud.py`.
-* **`Proxies/`**: Herramientas para validación y despliegue de redes.
-  * `proxy_server.py`: Servidor Flask que sirve listas de IP validadas.
-  * `probar_proxies.py`: Script avanzado para filtrar, deducir y probar proxies (soporte SOCKS5).
-* **`Asientos/`**: Herramienta auxiliar de monitoreo local.
-  * `Asientos.py`: Dashboard de estado de las PCs o máquinas virtuales usadas en la granja, con integración de Nmap y TightVNC.
+- **`Centralizador.py`**: Interfaz principal PyQt6 con navegación por pestañas y motor web optimizado.
+- **`browser_identity.py`**: Motor generador de identidades (crea User-Agents, tarjetas de video falsas, y huellas digitales aleatorias pero consistentes por pestaña).
+- **Scripts de Plataformas (`Correos.py`, `correos_gmail.py`, `MercadoSalud.py`)**: Configuraciones específicas para cada entorno de destino.
+- **`updater.py`**: Utilidad para gestionar la actualización remota de la herramienta.
 
 ---
 
-## 🛠️ Requisitos e Instalación
+## 🛠️ Instalación Rápida
 
-### Dependencias Generales
+### Dependencias
 - Python 3.10+
-- PyQt6 y PyQt6-WebEngine
-- Flask (Para los servidores de proxy)
-- Python-Nmap (Para el módulo de asientos)
+- `PyQt6` y `PyQt6-WebEngine`
 
-### Instalación Rápida
+### Configuración
 1. Clona este repositorio:
    ```bash
    git clone https://github.com/alfredmarcelo/Correos_Masivos.git
    ```
-2. Instala las dependencias:
+2. Instala las dependencias necesarias:
    ```bash
-   pip install PyQt6 PyQt6-WebEngine Flask python-nmap
+   pip install PyQt6 PyQt6-WebEngine
    ```
-3. Inicia la interfaz principal:
+3. Inicia la aplicación:
    ```bash
    python Centralizador/Centralizador.py
    ```
 
-*(Nota: Para el módulo de proxies, asegúrate de tener una lista en `Proxies/proxies_buenos.txt` y levantar los servidores locales si el centralizador los requiere para la pantalla de carga inicial).*
+*(Nota: Para utilizar la funcionalidad completa, el programa necesita consumir una lista de IPs / proxies a través de sus endpoints HTTP configurados localmente).*
 
 ---
 
 ## ⚠️ Aviso de Responsabilidad
-Este proyecto fue creado con fines de automatización, pruebas de carga e investigación en seguridad y evasión de huellas digitales (Browser Fingerprinting). El uso intensivo de estos scripts para la creación masiva de cuentas en plataformas de terceros debe hacerse bajo la propia responsabilidad del usuario, respetando los Términos de Servicio (ToS) de las plataformas correspondientes (Microsoft, Google, etc).
+Este proyecto fue creado con fines de automatización, pruebas de carga e investigación en seguridad y evasión de huellas digitales (Browser Fingerprinting). El uso intensivo de estos scripts para la creación masiva de cuentas en plataformas de terceros debe hacerse bajo la propia responsabilidad del usuario, respetando los Términos de Servicio (ToS) de las respectivas plataformas.
